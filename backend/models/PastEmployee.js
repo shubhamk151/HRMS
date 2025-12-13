@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const employeeSchema = new mongoose.Schema(
+const pastEmployeeSchema = new mongoose.Schema(
   {
     employeeCode: {
       type: String,
@@ -71,7 +71,7 @@ const employeeSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["admin", "HR", "employee", "manager"],
+      enum: ["admin", "HR", "employee"],
       default: "employee",
     },
 
@@ -128,4 +128,4 @@ const employeeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Employee", employeeSchema);
+export default mongoose.model("PastEmployee", pastEmployeeSchema);

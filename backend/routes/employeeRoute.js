@@ -18,16 +18,15 @@ import {
 
 router.use(Auth);
 
+router.get("/birthday", getUpcomingBirthdays);
+router.get("/", getEmployees);
 router.get("/:employeeId", getEmployee);
 
-router.use(AdminAuth("admin", "HR"));
+router.use(AdminAuth("admin", "HR", "employee"));
 
-//Employee Routes
 router.post("/", createEmployee);
-router.get("/", getEmployees);
-router.get("/birthday", getUpcomingBirthdays);
 router.put("/:employeeId", updateEmployee);
-router.put("/terminate/:employeeId", terminateEmployee);
+router.delete("/terminate/:employeeId", terminateEmployee);
 router.post("/assign-department", assignDepartment);
 router.post("/transfer", transferEmployee);
 router.post("/remove-from-department", removeEmployeeFromDepartment);

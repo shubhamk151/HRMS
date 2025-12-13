@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 dotenv.config();
 
+import authRoutes from "./routes/authRoute.js";
 import employeeRoutes from "./routes/employeeRoute.js";
 import departmentRoutes from "./routes/departmentRoute.js";
 import attendanceRoutes from "./routes/attendanceRoute.js";
@@ -12,6 +13,7 @@ import leaveRoutes from "./routes/leaveRouter.js";
 import leaveAllocationRoutes from "./routes/leaveAllocationRoute.js";
 import payrollRoutes from "./routes/payrollRoute.js";
 import noticeBord from "./routes/noticeBordRoute.js";
+import dashboardRoutes from "./routes/dashboardRoute.js";
 
 const PORT = process.env.PORT || 8080;
 const MONGO_URI = process.env.MONGODB_URI;
@@ -25,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
+app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
@@ -32,6 +35,7 @@ app.use("/api/leaves", leaveRoutes);
 app.use("/api/leave-allocations", leaveAllocationRoutes);
 app.use("/api/payroll", payrollRoutes);
 app.use("/api/notice-bord", noticeBord);
+app.use("/api", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend is working");
@@ -39,8 +43,8 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is working on port ${PORT}`);
-  mongoose
-    .connect(MONGO_URI)
-    .then(() => console.log("Connected to MongoDB"))
-    .catch((error) => console.error("Error connecting to MongoDB:", error));
+      mongoose
+        .connect(MONGO_URI)
+        .then(() => console.log("Connected to MongoDB"))
+        .catch((error) => console.error("Error connecting to MongoDB:", error));
 });

@@ -1,6 +1,7 @@
 import Employee from "../models/EmployeeModel.js";
 import Department from "../models/DepartmentModel.js";
 import { createSendToken } from "../utils/createSendToken.js";
+import PastEmployee from "../models/PastEmployee.js";
 
 export const createEmployee = async (req, res) => {
   try {
@@ -54,9 +55,13 @@ export const updateEmployee = async (req, res) => {
 
 export const terminateEmployee = async (req, res) => {
   try {
-    await Employee.findByIdAndUpdate(req.params.employeeId, {
-      status: "Inactive",
+    const deletedEmployee = await Employee.findByIdAndDelete(
+      req.params.employeeId
+    );
+    const pastEmployeeData = PastEmployee.create({
+      ...deletedEmployee.toObject(),
     });
+    await pastEmployeeData.save();
     res.json({ message: "Employee terminated" });
   } catch (err) {
     res.status(500).json({ error: err.message });

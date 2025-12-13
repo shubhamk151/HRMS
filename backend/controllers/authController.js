@@ -14,7 +14,10 @@ export const login = async (req, res, next) => {
         .json({ error: "Please provide email and password" });
 
     const employee = await Employee.findOne({ email }).select("+password");
-    if (!employee || !(await employee.matchPassword(password))) {
+    if (!employee) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    else if(employee.password !== password) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
